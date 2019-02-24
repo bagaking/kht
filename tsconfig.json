@@ -12,7 +12,8 @@
         "strictBindCallApply": false,
         "strict": true,
         "emitDecoratorMetadata": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "declaration": true
     },
     "include": [
         "src/**/*"
