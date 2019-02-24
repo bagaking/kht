@@ -1,7 +1,10 @@
+# Build
+lib/
+
 # Special
 __*/
 .idea/
-yarn.lock
+## yarn.lock
 
 # Logs
 logs
