@@ -1,3 +1,4 @@
+import * as readline from "readline";
 import {forMs} from "./wait";
 
 export class ConsoleHelper {
@@ -37,6 +38,20 @@ export class ConsoleHelper {
         });
 
         return Close;
+    }
+
+    public static async question(questionContent: string) {
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout,
+        });
+
+        return new Promise(((resolve) => {
+            rl.question(questionContent, (result) => {
+                rl.close();
+                resolve(result);
+            });
+        }));
     }
 
 }
