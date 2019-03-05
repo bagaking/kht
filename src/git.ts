@@ -39,4 +39,10 @@ export class Git {
         });
     }
 
+    public static async fetchAsFiles(repoPath: string, outPath: string, version = "master") {
+        return Git.clone(repoPath, outPath, version).catch((err) => {
+            console.log("get tables failed", err);
+            fs.removeSync(outPath);
+        }).then(() => fs.removeSync(Path.resolve(outPath, ".git")));
+    }
 }
