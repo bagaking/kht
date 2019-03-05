@@ -1,6 +1,6 @@
 import {forMs} from "./wait";
 
-export class ConsoleAnimation {
+export class ConsoleHelper {
 
     public static WaitingBar(span: number = 50, length: number = 20, delay: number = 1): () => string {
         let closed = false;

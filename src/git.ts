@@ -1,16 +1,18 @@
 import {spawn} from "child_process";
-import {ConsoleAnimation} from "./consoleAnimation";
+import * as fs from "fs-extra";
+import * as Path from "path";
+import {ConsoleHelper} from "./consoleHelper";
 
 export class Git {
 
-    public static clone(repoPath: string, outPath: string, version = "master") {
+    public static async clone(repoPath: string, outPath: string, version = "master") {
         return new Promise((resolve, reject) => {
 
             const process = spawn("git", ["clone", "--", repoPath, outPath]);
             process.stderr.on("data", (data) => {
                 console.log("==> ", data.toString());
             });
-            const closeBar = ConsoleAnimation.WaitingBar(40, 30, 50);
+            const closeBar = ConsoleHelper.WaitingBar(40, 30, 50);
 
             process.on("close", (status) => {
                 if (status === 0) {
@@ -36,4 +38,5 @@ export class Git {
 
         });
     }
+
 }
