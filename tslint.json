@@ -45,6 +45,7 @@
       true,
       180
     ],
+    "max-classes-per-file": false,
     "forin": false // open this in future
   }
 }
