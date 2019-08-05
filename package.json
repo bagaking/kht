@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf ./lib && npm run lint:fix && npx tsc && cp LICENSE lib && cp README.md lib",
     "prepublishOnly": "npm run build",
+    "clear:constfuncv3": "node ./__execute/clearCostFunc",
     "lint:fix": "npx tslint --fix --project ."
   },
   "repository": {
