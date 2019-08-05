@@ -28,6 +28,8 @@ export class ConsoleHelper {
                 stdout.clearLine(1);
                 await forMs(span);
             }
+            stdout.cursorTo(0);
+            stdout.write("[" + "#".repeat(length) + "] total:" + timeCost());
             return timeCost();
         };
         execute().then((timeCostStr) => {
