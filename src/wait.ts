@@ -10,9 +10,13 @@ export async function forCondition(fnPredict: () => boolean | Promise<boolean>, 
     while (true) {
         const result = fnPredict();
         if (typeof result === "boolean") {
-            if (result) { return; }
+            if (result) {
+                return;
+            }
         } else {
-            if (await result) { return; }
+            if (await result) {
+                return;
+            }
         }
         await forMs(spanMs);
     }
@@ -38,4 +42,32 @@ export async function timeoutPromise<T>(ms: number, promiseLike: Promise<T>, onC
         clearTimeout(timeOut);
         throw err;
     });
+}
+
+export async function asyncMapEach<TVal, TOut>(
+    array: TVal[],
+    fnIterator: (item: TVal, ind: number, array: TVal[]) => Promise<TOut>,
+    maxConcurrentNum: number = 10) {
+    let i = 0;
+    const ret: Array<Promise<TOut>> = [];
+    const running: Array<Promise<TOut>> = [];
+
+    async function execute() {
+        if (i === array.length) {
+            return await Promise.resolve();
+        }
+        const item = array[i];
+        const promise: Promise<TOut> = fnIterator(item, i, array);
+        running.push(promise);
+        ret.push(promise.then(() => running.splice(running.indexOf(promise), 1)[0]));
+        i++;
+
+        if (running.length >= maxConcurrentNum) {
+            await Promise.race(running);
+        }
+
+        await execute();
+    }
+
+    return execute().then(() => Promise.all(ret));
 }
