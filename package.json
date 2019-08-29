@@ -1,6 +1,6 @@
 {
   "name": "kht",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "utilities",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

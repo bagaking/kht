@@ -1,7 +1,16 @@
+import {WriteStream} from "fs";
 import * as readline from "readline";
 import {forMs} from "./wait";
 
 export class ConsoleHelper {
+
+    public static cursorTo(stdout: WriteStream, x: number, y?: number) {
+        readline.cursorTo(stdout, 0);
+    }
+
+    public static clearLine(stdout: WriteStream, dir: number) {
+        readline.clearLine(stdout, dir);
+    }
 
     public static WaitingBar(span: number = 50, length: number = 20, delay: number = 1): () => string {
         let closed = false;
@@ -17,7 +26,8 @@ export class ConsoleHelper {
         const execute = async () => {
             await forMs(delay);
             while (!closed) {
-                stdout.cursorTo(0);
+                this.cursorTo(stdout, 0);
+                // stdout.cursorTo(0);
                 const indCount = i++ % length;
                 const bodyCount = (indCount + 3) % length;
                 if (bodyCount > indCount) {
@@ -25,17 +35,21 @@ export class ConsoleHelper {
                 } else {
                     stdout.write("[" + "#".repeat(bodyCount) + "-".repeat(indCount - bodyCount) + "#".repeat(3 - bodyCount) + "] total:" + timeCost());
                 }
-                stdout.clearLine(1);
+                this.clearLine(stdout, 1);
+                // stdout.clearLine(1);
                 await forMs(span);
             }
-            stdout.cursorTo(0);
+            this.cursorTo(stdout, 0);
+            // stdout.cursorTo(0);
             stdout.write("[" + "#".repeat(length) + "] total:" + timeCost());
             return timeCost();
         };
         execute().then((timeCostStr) => {
-            stdout.cursorTo(0);
+            this.cursorTo(stdout, 0);
+            // stdout.cursorTo(0);
             stdout.write("[done] total time cost : " + timeCostStr);
-            stdout.clearLine(1);
+            this.clearLine(stdout, 1);
+            // stdout.clearLine(1);
             console.log("");
         });
 
